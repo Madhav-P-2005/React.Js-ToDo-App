@@ -1,0 +1,31 @@
+$dark-bg: #171b1f;
+$light-bg: #ffffff;
+$dark-text: #ffffff;
+$light-text: #000000;
+
+html, body, #root {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+}
+
+.dark-mode {
+  background-color: $dark-bg;
+  color: $dark-text;
+  min-height: 100vh;
+  transition: background-color 0.3s ease;
+}
+
+.light-mode {
+  background-color: $light-bg;
+  color: $light-text;
+  min-height: 100vh;
+  transition: background-color 0.3s ease;
+}
+
+
+.modal-content {
+    background-color: var(--bs-body-bg);
+    color: var(--bs-body-color);
+  }  
