@@ -26,12 +26,10 @@ function App() {
       <div className="container py-4">
         <h1>Welcome to My To-Do App 📝</h1>
         <div>
-          <TaskyModelButton
-              onClearClick={handleClearTasks}
-          />
+          <TaskyModelButton onClearClick={handleClearTasks} />
         </div>
 
-        <TaskModal/>
+        <TaskModal />
       </div>
     </div>
   );
