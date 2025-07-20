@@ -30,3 +30,17 @@ https://fonts.google.com/selection/embed
 https://getbootstrap.com/docs/5.3/forms/validation/
 
 https://fontawesome.com/search?q=dark&o=r&ic=free&s=solid&ip=classic
+
+
+
+
+🔁 Switch to a React-friendly datepicker like react-flatpickr, because:
+
+It's easier to manage in React.
+
+No need to rely on jQuery or complex Bootstrap JS setup.
+
+More future-proof and lightweight.  
+
+
+npm install react-flatpickr flatpickr

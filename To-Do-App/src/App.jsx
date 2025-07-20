@@ -3,21 +3,23 @@ import Navbar from "./components/Navbar";
 import "./assets/styles/main.scss";
 import TaskyModelButton from "./components/TaskyModalButton";
 import TaskModal from "./components/TaskModel";
+import TaskLists from "./components/TaskLists";
 
 function App() {
   const [isDarkMode, setIsDarkMode] = useState(false);
+  const [taskList, setTaskList] = useState([]);
 
-  // const [showModel , setShowModel] = useState(false);
+  const handleAddTask = (newTask) => {
+    setTaskList((prev) => [...prev, newTask]);
+  };
 
+  const handleDeleteTask = (id) => {
+    setTaskList((prevTasks) => prevTasks.filter((task) => task.id !== id));
+  };
 
-  // const handleAddClick = () => setShowModel(true);
-
-  // const handleCloseModel = () => setShowModel(false);
-
-  const handleClearTasks = () =>{
-    console.log("clear tasks clicked")
-  }
-
+  const handleClearTasks = () => {
+    console.log("clear tasks clicked");
+  };
 
   return (
     <div className={isDarkMode ? "dark-mode" : "light-mode"}>
@@ -25,11 +27,14 @@ function App() {
 
       <div className="container py-4">
         <h1>Welcome to My To-Do App 📝</h1>
+
         <div>
           <TaskyModelButton onClearClick={handleClearTasks} />
         </div>
 
-        <TaskModal />
+        <TaskModal onTaskGenerate={handleAddTask} />
+
+        <TaskLists tasks={taskList} onDeleteTask={handleDeleteTask} />
       </div>
     </div>
   );

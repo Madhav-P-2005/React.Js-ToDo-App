@@ -1,8 +1,14 @@
 import { useState } from "react";
+import Flatpickr from "react-flatpickr";
+import "flatpickr/dist/themes/material_green.css"; // or any other theme like 'light', 'airbnb', etc.
 
-const TaskModel = () => {
+
+const TaskModel = ({onTaskGenerate}) => {
+
   const [showTitle, setShowTitle] = useState(false);
   const [showDescription, setShowDescription] = useState(false);
+  const [showDate , setShowDate] = useState(false);
+
   const [imageInputType, setImageInputType] = useState("url");
   const [uploadFile, setUploadedFile] = useState(null);
   const [Title, setTitle] = useState("");
@@ -11,7 +17,10 @@ const TaskModel = () => {
   const [Image, setImage] = useState("");
   const [showPreview, setShowPreview] = useState(false);
 
-  const isValidImageURL = (url) => /\.(jpeg|jpg|gif|png|pdf|webp)$/i.test(url);
+  const [selectedDate, setSelectedDate] = useState(null);
+
+
+  const isValidImageURL = (url) => /\.(jpeg|jpg|gif|png|webp)$/i.test(url);
 
   const resetImageSection = () => {
     setImage("");
@@ -136,7 +145,9 @@ const TaskModel = () => {
 
             {/* Image Input Toggle */}
             <div className="mb-3">
-              <label className="form-label">Choose Image Input Method :- </label>
+              <label className="form-label">
+                Choose Image Input Method :-{" "}
+              </label>
               <div className="form-check">
                 <input
                   className="form-check-input"
@@ -162,7 +173,7 @@ const TaskModel = () => {
                   onChange={() => setImageInputType("upload")}
                 />
                 <label className="form-check-label" htmlFor="uploadRadio">
-                  📂 Upload a file
+                  📂 Upload a Image
                 </label>
               </div>
             </div>
@@ -210,7 +221,7 @@ const TaskModel = () => {
             {/* Image Preview */}
             {showPreview && (
               <div className="text-center mb-3">
-                {imageInputType === "url" && isValidImageURL(Image) && (
+                {imageInputType === "url" && (
                   <img
                     src={Image}
                     className="img-fluid rounded-4 shadow-sm"
@@ -232,7 +243,7 @@ const TaskModel = () => {
             {/* Clear Image Section */}
             {(Image || uploadFile) && (
               <button
-                className="btn btn-danger mb-3"
+                className="btn btn-outline-danger mb-3 shadow-sm"
                 onClick={resetImageSection}
               >
                 🧹 Clear Image
@@ -245,19 +256,67 @@ const TaskModel = () => {
                 className="form-check-input"
                 type="checkbox"
                 id="checkTime"
+                checked={showDate}
+                onChange={() => {
+                  setShowDate(!showDate);
+                }}
               />
               <label className="form-check-label" htmlFor="checkTime">
-                🕒 Add Time & Date
+                📅 Add Time & Date
               </label>
+
+              {showDate && (
+                <Flatpickr
+                  className="form-control"
+                  options={{
+                    enableTime: true,
+                    dateFormat: "Y-m-d H:i",
+                  }}
+                  value={selectedDate}
+                  onChange={(date) => {
+                    setSelectedDate(date);
+                  }}
+                />
+              )}
             </div>
           </div>
 
-          {/* Footer */}
           <div className="modal-footer">
             <button
               type="button"
-              className="btn btn-success"
+              className="btn btn-outline-success"
               data-bs-dismiss="modal"
+              style={{
+                boxShadow: "0 0 10px rgba(0, 255, 0, 0.6)", // glowing green
+                backdropFilter: "blur(2px)",
+              }}
+              onClick={() => {
+                const task = {
+                  id: crypto.randomUUID(), // ← THIS LINE WAS THE ISSUE
+                  title: Title,
+                  category: Category,
+                  description: Description,
+                  image:
+                    imageInputType === "url"
+                      ? Image
+                      : uploadFile
+                      ? uploadedFileURL
+                      : null,
+                  date: selectedDate ? selectedDate[0] : null, // Flatpickr returns array
+                };
+
+                onTaskGenerate(task);
+
+                // Reset form
+                setTitle("");
+                setCategory("Choose Your Category");
+                setDescription("");
+                resetImageSection();
+                setSelectedDate(null);
+                setShowTitle(false);
+                setShowDescription(false);
+                setShowDate(false);
+              }}
             >
               ✅ Generate Task
             </button>
