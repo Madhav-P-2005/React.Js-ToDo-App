@@ -1,5 +1,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
+import { faT, faTrash } from "@fortawesome/free-solid-svg-icons";
+
 const TaskDelete = ({ taskId, onDelete }) => {
   const handleClick = () => {
     if (window.confirm("Are you sure you want to delete this task? ")) {
@@ -9,7 +11,7 @@ const TaskDelete = ({ taskId, onDelete }) => {
 
   return (
     <button type="button" className="btn btn-danger px-2" onClick={handleClick}>
-      <FontAwesomeIcon icon="fa-solid fa-trash" /> Delete
+      <FontAwesomeIcon icon={faTrash} /> Delete
     </button>
   );
 };

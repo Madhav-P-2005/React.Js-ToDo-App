@@ -1,6 +1,8 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import TaskDelete from "./TaskDelete";
 
+import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
+
 const TaskLists = ({ tasks, onDeleteTask , onEditClick }) => {
   // Optional wrapper for future logic
   const handleDelete = (id) => {
@@ -70,7 +72,7 @@ const TaskLists = ({ tasks, onDeleteTask , onEditClick }) => {
                         className="btn btn-warning text-white px-3"
                         onClick={() => onEditClick(task)}
                       >
-                        <FontAwesomeIcon icon="fa-solid fa-pen-to-square" />{" "}
+                        <FontAwesomeIcon icon={faPenToSquare} />{" "}
                         Edit
                       </button>
                       <TaskDelete taskId={task.id} onDelete={handleDelete} />
