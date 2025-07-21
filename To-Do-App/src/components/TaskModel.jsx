@@ -2,6 +2,8 @@ import { useState } from "react";
 import Flatpickr from "react-flatpickr";
 import "flatpickr/dist/themes/material_green.css"; // or any other theme like 'light', 'airbnb', etc.
 
+import generateTask from "./TaskGenerate";
+
 
 const TaskModel = ({onTaskGenerate}) => {
 
@@ -30,6 +32,7 @@ const TaskModel = ({onTaskGenerate}) => {
   };
 
   const uploadedFileURL = uploadFile ? URL.createObjectURL(uploadFile) : null;
+
 
   return (
     <div
@@ -274,7 +277,7 @@ const TaskModel = ({onTaskGenerate}) => {
                   }}
                   value={selectedDate}
                   onChange={(date) => {
-                    setSelectedDate(date);
+                    setSelectedDate(date[0]);
                   }}
                 />
               )}
@@ -291,31 +294,19 @@ const TaskModel = ({onTaskGenerate}) => {
                 backdropFilter: "blur(2px)",
               }}
               onClick={() => {
-                const task = {
-                  id: crypto.randomUUID(), // ← THIS LINE WAS THE ISSUE
+                const task =  generateTask({
+                  
                   title: Title,
-                  category: Category,
-                  description: Description,
-                  image:
-                    imageInputType === "url"
-                      ? Image
-                      : uploadFile
-                      ? uploadedFileURL
-                      : null,
-                  date: selectedDate ? selectedDate[0] : null, // Flatpickr returns array
-                };
+                  category : Category,
+                  description : Description,
+                  image : 
+                          imageInputType === "url" ? Image : uploadFile ? uploadedFileURL : null,
+                  date : selectedDate,
 
-                onTaskGenerate(task);
+                });
 
-                // Reset form
-                setTitle("");
-                setCategory("Choose Your Category");
-                setDescription("");
-                resetImageSection();
-                setSelectedDate(null);
-                setShowTitle(false);
-                setShowDescription(false);
-                setShowDate(false);
+              onTaskGenerate(task);
+
               }}
             >
               ✅ Generate Task
