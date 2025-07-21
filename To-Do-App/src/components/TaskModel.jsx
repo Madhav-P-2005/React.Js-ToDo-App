@@ -1,28 +1,37 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import Flatpickr from "react-flatpickr";
-import "flatpickr/dist/themes/material_green.css";     // or any other theme like 'light', 'airbnb', etc.
-
+import "flatpickr/dist/themes/material_green.css";
+import { faCalendarDays } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import generateTask from "./TaskGenerate";
 
+const TaskModel = ({ onTaskGenerate , mode="create" || "edit",
+  show=false,
+  onClose,
+  taskToEdit = null,
+  onSaveEdit
+ }) => {
 
-const TaskModel = ({onTaskGenerate}) => {
+  const calendarRef = useRef(null); // Add this
 
   const [showTitle, setShowTitle] = useState(false);
   const [showDescription, setShowDescription] = useState(false);
-  const [showDate , setShowDate] = useState(false);
-
+  const [showDate, setShowDate] = useState(false);
   const [imageInputType, setImageInputType] = useState("url");
   const [uploadFile, setUploadedFile] = useState(null);
+
   const [Title, setTitle] = useState("");
   const [Category, setCategory] = useState("Choose Your Category");
   const [Description, setDescription] = useState("");
   const [Image, setImage] = useState("");
   const [showPreview, setShowPreview] = useState(false);
-
-  const [selectedDate, setSelectedDate] = useState(null);
-
+  const [selectedDate, setSelectedDate] = useState(new Date());
 
   const isValidImageURL = (url) => /\.(jpeg|jpg|gif|png|webp)$/i.test(url);
+
+  useEffect(() => {
+    console.log("⏰ Selected Date:", selectedDate);
+  }, [selectedDate]);
 
   const resetImageSection = () => {
     setImage("");
@@ -32,6 +41,19 @@ const TaskModel = ({onTaskGenerate}) => {
   };
 
   const uploadedFileURL = uploadFile ? URL.createObjectURL(uploadFile) : null;
+
+
+  useEffect(() => {
+    
+    if(mode === "edit" && taskToEdit)
+    {
+      setTitle(taskToEdit.title || "");
+      setCategory(taskToEdit.category || "Choose Your Category");
+      setDescription(taskToEdit.description || "");
+      setImage(taskToEdit.image || "");
+      setSelectedDate(new Date(taskToEdit.Date || new Date()));
+    }
+  } , [mode , taskToEdit])
 
 
   return (
@@ -73,6 +95,7 @@ const TaskModel = ({onTaskGenerate}) => {
               <label className="form-check-label" htmlFor="checkTitle">
                 📝 Add Title
               </label>
+
               {showTitle && (
                 <div className="input-group mt-2">
                   <input
@@ -127,6 +150,7 @@ const TaskModel = ({onTaskGenerate}) => {
               <label className="form-check-label" htmlFor="checkDesc">
                 📖 Add Description
               </label>
+
               {showDescription && (
                 <div className="mt-2">
                   <textarea
@@ -148,9 +172,7 @@ const TaskModel = ({onTaskGenerate}) => {
 
             {/* Image Input Toggle */}
             <div className="mb-3">
-              <label className="form-label">
-                Choose Image Input Method :-{" "}
-              </label>
+              <label className="form-label">Choose Image Input Method:</label>
               <div className="form-check">
                 <input
                   className="form-check-input"
@@ -176,15 +198,15 @@ const TaskModel = ({onTaskGenerate}) => {
                   onChange={() => setImageInputType("upload")}
                 />
                 <label className="form-check-label" htmlFor="uploadRadio">
-                  📂 Upload a Image
+                  📂 Upload an Image
                 </label>
               </div>
             </div>
 
-            {/* Image Input Sections */}
+            {/* Image Input Field */}
             {imageInputType === "url" && (
               <div className="input-group mb-2">
-                <span className="input-group-text">Image URL:- </span>
+                <span className="input-group-text">Image URL:</span>
                 <input
                   type="text"
                   className="form-control bg-success-subtle"
@@ -243,7 +265,7 @@ const TaskModel = ({onTaskGenerate}) => {
               </div>
             )}
 
-            {/* Clear Image Section */}
+            {/* Clear Image */}
             {(Image || uploadFile) && (
               <button
                 className="btn btn-outline-danger mb-3 shadow-sm"
@@ -253,64 +275,100 @@ const TaskModel = ({onTaskGenerate}) => {
               </button>
             )}
 
-            {/* Time Date Checkbox (placeholder) */}
+            {/* Date Picker with Icon Trigger */}
             <div className="form-check mb-2">
               <input
                 className="form-check-input"
                 type="checkbox"
                 id="checkTime"
                 checked={showDate}
-                onChange={() => {
-                  setShowDate(!showDate);
-                }}
+                onChange={() => setShowDate(!showDate)}
               />
               <label className="form-check-label" htmlFor="checkTime">
                 📅 Add Time & Date
               </label>
 
               {showDate && (
-                <Flatpickr
-                  className="form-control"
-                  options={{
-                    enableTime: true,
-                    dateFormat: "Y-m-d H:i",
-                  }}
-                  value={selectedDate}
-                  onChange={(date) => {
-                    setSelectedDate(date[0]);
-                  }}
-                />
+                <div className="input-group">
+                  <Flatpickr
+                    className="form-control"
+                    value={selectedDate}
+                    options={{
+                      enableTime: true,
+                      time_24hr: false,
+                      altInput: true,
+                      altFormat: "F j, Y h:i K",
+                      dateFormat: "Y-m-d H:i",
+                      defaultDate: selectedDate,
+                    }}
+                    onChange={(date) => setSelectedDate(date[0])}
+                    ref={calendarRef}
+                  />
+
+                  <button
+                    className="input-group-text"
+                    onClick={() => {
+                      if (calendarRef.current) {
+                        calendarRef.current.flatpickr.open(); // This opens the picker
+                      }
+                    }}
+                  >
+                    <FontAwesomeIcon icon={faCalendarDays} />
+                  </button>
+                </div>
               )}
             </div>
           </div>
 
+          {/* Footer */}
           <div className="modal-footer">
+          {mode === "create" ? (
             <button
               type="button"
               className="btn btn-outline-success"
               data-bs-dismiss="modal"
               style={{
-                boxShadow: "0 0 10px rgba(0, 255, 0, 0.6)", // glowing green
+                boxShadow: "0 0 10px rgba(0, 255, 0, 0.6)",
                 backdropFilter: "blur(2px)",
               }}
               onClick={() => {
-                const task =  generateTask({
-                  
+                const task = generateTask({
                   title: Title,
-                  category : Category,
-                  description : Description,
-                  image : 
-                          imageInputType === "url" ? Image : uploadFile ? uploadedFileURL : null,
-                  date : selectedDate,
-
+                  category: Category,
+                  description: Description,
+                  image:
+                    imageInputType === "url"
+                      ? Image
+                      : uploadFile
+                      ? uploadedFileURL
+                      : null,
+                  date: selectedDate,
                 });
 
-              onTaskGenerate(task);
-
+                onTaskGenerate(task);
               }}
             >
               ✅ Generate Task
             </button>
+          ) : (
+            <button
+              className="btn btn-outline-primary"
+              onClick={() =>{
+                const updatedTask = {
+                  ...taskToEdit,
+                  title: Title,
+                  category: Category,
+                  description: Description,
+                  image: imageInputType === "url" ? Image : uploadedFileURL,
+                  date: selectedDate,
+                };
+                onSaveEdit(updatedTask);
+                onClose(); // close modal after saving
+              }}
+              >
+               💾 Save Changes
+              </button>
+          )}
           </div>
         </div>
       </div>

@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import TaskDelete from "./TaskDelete";
 
-const TaskLists = ({ tasks, onDeleteTask }) => {
+const TaskLists = ({ tasks, onDeleteTask , onEditClick }) => {
   // Optional wrapper for future logic
   const handleDelete = (id) => {
     onDeleteTask(id);
@@ -9,7 +9,7 @@ const TaskLists = ({ tasks, onDeleteTask }) => {
 
   return (
     <div className="container mt-5">
-    
+
       {/* Section Heading */}
       <div className="text-center mb-4">
         <h1 className="display-5 fw-bold">Your Tasks 📃</h1>
@@ -68,6 +68,7 @@ const TaskLists = ({ tasks, onDeleteTask }) => {
                       <button
                         type="button"
                         className="btn btn-warning text-white px-3"
+                        onClick={() => onEditClick(task)}
                       >
                         <FontAwesomeIcon icon="fa-solid fa-pen-to-square" />{" "}
                         Edit
