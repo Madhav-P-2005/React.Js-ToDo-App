@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import { faT, faTrash } from "@fortawesome/free-solid-svg-icons";
+import {faTrash} from "@fortawesome/free-solid-svg-icons";
 
 const TaskDelete = ({ taskId, onDelete }) => {
   const handleClick = () => {
