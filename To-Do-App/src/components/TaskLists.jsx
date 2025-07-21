@@ -9,6 +9,7 @@ const TaskLists = ({ tasks, onDeleteTask }) => {
 
   return (
     <div className="container mt-5">
+    
       {/* Section Heading */}
       <div className="text-center mb-4">
         <h1 className="display-5 fw-bold">Your Tasks 📃</h1>
