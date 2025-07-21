@@ -1,18 +1,19 @@
 import React from "react";
 
-const TaskyModelButton = ({onclearClick}) =>{
+const TaskyModelButton = ({onclearClick , onOpen}) =>{
 
 
 
     return (
       <>
         <div className="container">
-          <div className="d-grid gap-2">
+          <div className="d-flex justify-content-between align-items-center my-3">
             <button
               className="btn btn-success"
               data-bs-toggle="modal"
               data-bs-target="#staticBackdrop"
               type="button"
+              onClick={onOpen}
             >
               ➕ Add Tasks
             </button>
@@ -21,7 +22,7 @@ const TaskyModelButton = ({onclearClick}) =>{
               type="button"
               onClick={onclearClick}
             >
-              🧹 Clear/Reset Tasks
+              🗑️ Clear/Reset Tasks
             </button>
           </div>
         </div>
