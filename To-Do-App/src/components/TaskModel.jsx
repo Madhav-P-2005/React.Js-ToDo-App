@@ -1,37 +1,31 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import Flatpickr from "react-flatpickr";
 import "flatpickr/dist/themes/material_green.css";
 import { faCalendarDays } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import generateTask from "./TaskGenerate";
 
-const TaskModel = ({ onTaskGenerate , mode="create", 
-  show=false,
-  onClose,
-  taskToEdit = null,
-  onSaveEdit
- }) => {
+const TaskModel = ({ onTaskGenerate , onClose }) => {
+  const calendarRef = useRef(null);
 
-  const calendarRef = useRef(null); // Add this
-
+  // Form States
   const [showTitle, setShowTitle] = useState(false);
   const [showDescription, setShowDescription] = useState(false);
   const [showDate, setShowDate] = useState(false);
   const [imageInputType, setImageInputType] = useState("url");
-  const [uploadFile, setUploadedFile] = useState(null);
 
-  const [Title, setTitle] = useState("");
-  const [Category, setCategory] = useState("Choose Your Category");
-  const [Description, setDescription] = useState("");
-  const [Image, setImage] = useState("");
+  const [title, setTitle] = useState("");
+  const [category, setCategory] = useState("Choose Your Category");
+  const [description, setDescription] = useState("");
+  const [image, setImage] = useState("");
+  const [uploadedFile, setUploadedFile] = useState(null);
+
   const [showPreview, setShowPreview] = useState(false);
   const [selectedDate, setSelectedDate] = useState(new Date());
 
-  const isValidImageURL = (url) => /\.(jpeg|jpg|gif|png|webp)$/i.test(url);
-
-  useEffect(() => {
-    console.log("⏰ Selected Date:", selectedDate);
-  }, [selectedDate]);
+  const uploadedFileURL = uploadedFile
+    ? URL.createObjectURL(uploadedFile)
+    : null;
 
   const resetImageSection = () => {
     setImage("");
@@ -40,37 +34,30 @@ const TaskModel = ({ onTaskGenerate , mode="create",
     setShowPreview(false);
   };
 
-  const uploadedFileURL = uploadFile ? URL.createObjectURL(uploadFile) : null;
-
-
-  useEffect(() => {
-    
-    if(mode === "edit" && taskToEdit)
-    {
-      setTitle(taskToEdit.title || "");
-      setCategory(taskToEdit.category || "Choose Your Category");
-      setDescription(taskToEdit.description || "");
-      setImage(taskToEdit.image || "");
-      setSelectedDate(new Date(taskToEdit.Date || new Date()));
-    }
-  } , [mode , taskToEdit])
-
+  const handleTaskGenerate = () => {
+    const task = generateTask({
+      title,
+      category,
+      description,
+      image: imageInputType === "url" ? image : uploadedFileURL,
+      date: selectedDate,
+    });
+    onTaskGenerate(task);
+  };
 
   return (
     <div
-      className="modal fade"
-      id="staticBackdrop"
-      data-bs-backdrop="static"
-      data-bs-keyboard="false"
-      tabIndex="-1"
-      aria-labelledby="staticBackdropLabel"
-      aria-hidden="true"
+      className="modal d-block"
+      style={{
+        backgroundColor: "rgba(0,0,0,0.5)",
+        zIndex: 1050,
+      }}
     >
       <div className="modal-dialog">
         <div className="modal-content">
           {/* Header */}
           <div className="modal-header">
-            <h1 className="modal-title fs-5" id="staticBackdropLabel">
+            <h1 className="modal-title fs-5">
               Customize Your Task As You Wish! 🤗
             </h1>
             <button
@@ -78,12 +65,13 @@ const TaskModel = ({ onTaskGenerate , mode="create",
               className="btn-close"
               data-bs-dismiss="modal"
               aria-label="Close"
+              onClick={onClose}
             ></button>
           </div>
 
           {/* Body */}
           <div className="modal-body">
-            {/* Title Checkbox */}
+            {/* Title */}
             <div className="form-check mb-2">
               <input
                 className="form-check-input"
@@ -95,14 +83,13 @@ const TaskModel = ({ onTaskGenerate , mode="create",
               <label className="form-check-label" htmlFor="checkTitle">
                 📝 Add Title
               </label>
-
               {showTitle && (
                 <div className="input-group mt-2">
                   <input
                     type="text"
                     className="form-control"
-                    placeholder="Type your Title Name..."
-                    value={Title}
+                    placeholder="Type your Title..."
+                    value={title}
                     onChange={(e) => setTitle(e.target.value)}
                   />
                   <button
@@ -124,7 +111,7 @@ const TaskModel = ({ onTaskGenerate , mode="create",
               <select
                 className="form-select"
                 id="inputGroupSelect01"
-                value={Category}
+                value={category}
                 onChange={(e) => setCategory(e.target.value)}
               >
                 <option value="Choose Your Category">
@@ -150,14 +137,13 @@ const TaskModel = ({ onTaskGenerate , mode="create",
               <label className="form-check-label" htmlFor="checkDesc">
                 📖 Add Description
               </label>
-
               {showDescription && (
                 <div className="mt-2">
                   <textarea
                     className="form-control"
                     rows="3"
                     placeholder="Type your description..."
-                    value={Description}
+                    value={description}
                     onChange={(e) => setDescription(e.target.value)}
                   ></textarea>
                   <button
@@ -170,7 +156,7 @@ const TaskModel = ({ onTaskGenerate , mode="create",
               )}
             </div>
 
-            {/* Image Input Toggle */}
+            {/* Image Input Type Toggle */}
             <div className="mb-3">
               <label className="form-label">Choose Image Input Method:</label>
               <div className="form-check">
@@ -210,12 +196,11 @@ const TaskModel = ({ onTaskGenerate , mode="create",
                 <input
                   type="text"
                   className="form-control bg-success-subtle"
-                  value={Image}
+                  value={image}
                   onChange={(e) => setImage(e.target.value)}
                 />
               </div>
             )}
-
             {imageInputType === "upload" && (
               <div className="input-group mb-2">
                 <label className="input-group-text" htmlFor="fileUpload">
@@ -231,7 +216,7 @@ const TaskModel = ({ onTaskGenerate , mode="create",
             )}
 
             {/* Preview Button */}
-            {(Image || uploadFile) && (
+            {(image || uploadedFile) && (
               <div className="d-flex align-items-center gap-2 mb-2">
                 <button
                   className="btn btn-outline-info"
@@ -248,25 +233,25 @@ const TaskModel = ({ onTaskGenerate , mode="create",
               <div className="text-center mb-3">
                 {imageInputType === "url" && (
                   <img
-                    src={Image}
-                    className="img-fluid rounded-4 shadow-sm"
+                    src={image}
                     alt="Preview"
+                    className="img-fluid rounded-4 shadow-sm"
                     style={{ maxHeight: "250px" }}
                   />
                 )}
                 {imageInputType === "upload" && uploadedFileURL && (
                   <img
                     src={uploadedFileURL}
-                    className="img-fluid rounded-4 shadow-sm"
                     alt="Uploaded Preview"
+                    className="img-fluid rounded-4 shadow-sm"
                     style={{ maxHeight: "250px" }}
                   />
                 )}
               </div>
             )}
 
-            {/* Clear Image */}
-            {(Image || uploadFile) && (
+            {/* Clear Image Button */}
+            {(image || uploadedFile) && (
               <button
                 className="btn btn-outline-danger mb-3 shadow-sm"
                 onClick={resetImageSection}
@@ -275,7 +260,7 @@ const TaskModel = ({ onTaskGenerate , mode="create",
               </button>
             )}
 
-            {/* Date Picker with Icon Trigger */}
+            {/* Date Picker */}
             <div className="form-check mb-2">
               <input
                 className="form-check-input"
@@ -287,7 +272,6 @@ const TaskModel = ({ onTaskGenerate , mode="create",
               <label className="form-check-label" htmlFor="checkTime">
                 📅 Add Time & Date
               </label>
-
               {showDate && (
                 <div className="input-group">
                   <Flatpickr
@@ -304,12 +288,12 @@ const TaskModel = ({ onTaskGenerate , mode="create",
                     onChange={(date) => setSelectedDate(date[0])}
                     ref={calendarRef}
                   />
-
                   <button
                     className="input-group-text"
+                    type="button"
                     onClick={() => {
                       if (calendarRef.current) {
-                        calendarRef.current.flatpickr.open(); // This opens the picker
+                        calendarRef.current.flatpickr.open();
                       }
                     }}
                   >
@@ -322,7 +306,6 @@ const TaskModel = ({ onTaskGenerate , mode="create",
 
           {/* Footer */}
           <div className="modal-footer">
-          {mode === "create" ? (
             <button
               type="button"
               className="btn btn-outline-success"
@@ -331,44 +314,10 @@ const TaskModel = ({ onTaskGenerate , mode="create",
                 boxShadow: "0 0 10px rgba(0, 255, 0, 0.6)",
                 backdropFilter: "blur(2px)",
               }}
-              onClick={() => {
-                const task = generateTask({
-                  title: Title,
-                  category: Category,
-                  description: Description,
-                  image:
-                    imageInputType === "url"
-                      ? Image
-                      : uploadFile
-                      ? uploadedFileURL
-                      : null,
-                  date: selectedDate,
-                });
-
-                onTaskGenerate(task);
-              }}
+              onClick={handleTaskGenerate}
             >
               ✅ Generate Task
             </button>
-          ) : (
-            <button
-              className="btn btn-outline-primary"
-              onClick={() =>{
-                const updatedTask = {
-                  ...taskToEdit,
-                  title: Title,
-                  category: Category,
-                  description: Description,
-                  image: imageInputType === "url" ? Image : uploadedFileURL,
-                  date: selectedDate,
-                };
-                onSaveEdit(updatedTask);
-                onClose(); // close modal after saving
-              }}
-              >
-               💾 Save Changes
-              </button>
-          )}
           </div>
         </div>
       </div>

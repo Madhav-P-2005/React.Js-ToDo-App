@@ -29,3 +29,20 @@ html, body, #root {
     background-color: var(--bs-body-bg);
     color: var(--bs-body-color);
   }  
+
+
+
+input::placeholder {
+  font-size: 1rem;
+  opacity: 0.8;
+}
+
+
+.modal {
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
