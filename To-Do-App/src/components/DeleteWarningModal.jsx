@@ -36,7 +36,7 @@ const DeleteWarningModal = ({ taskId, onDelete }) => {
               className="alert alert-warning d-flex align-items-center"
               role="alert"
             >
-              ⚠️ Do you really want to delete this task?
+              ⚠️ Do you really want to delete this task ❓
             </div>
           </div>
 
