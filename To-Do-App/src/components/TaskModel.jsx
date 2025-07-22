@@ -5,7 +5,7 @@ import { faCalendarDays } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import generateTask from "./TaskGenerate";
 
-const TaskModel = ({ onTaskGenerate , mode="create" || "edit",
+const TaskModel = ({ onTaskGenerate , mode="create", 
   show=false,
   onClose,
   taskToEdit = null,

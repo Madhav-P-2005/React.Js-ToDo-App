@@ -13,7 +13,10 @@ const TaskyModelButton = ({onclearClick , onOpen}) =>{
               data-bs-toggle="modal"
               data-bs-target="#staticBackdrop"
               type="button"
-              onClick={onOpen}
+              onClick={() => {
+                setModalMode("create");
+                setEditTask(null)
+              }}
             >
               ➕ Add Tasks
             </button>

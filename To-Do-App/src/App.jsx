@@ -9,7 +9,7 @@ function App() {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [taskList, setTaskList] = useState([]);
 
-  const [showModel , setShowModal] = useState(false);
+  // const [showModel , setShowModal] = useState(false);
 
   const [modalMode , setModalMode] = useState("create");
 
@@ -25,7 +25,7 @@ function App() {
   };
 
   const handleUpdatedTask = (updatedTask) => {
-       setTaskList((prevTasks) =>task.id === updatedTask.id ? updatedTask : task)
+       setTaskList((prevTasks) => prevTasks.map((task) => task.id === updatedTask.id ? updatedTask : task))
   }
 
 
@@ -36,7 +36,10 @@ function App() {
     const handleEditClick = (task) => {
       setEditTask(task);
       setModalMode("edit");
-      setShowModal(true);
+      // setShowModal(true);
+      const modelElement = document.getElementById('staticBackdrop');
+      const bootstrapModal = new window.bootstrap.Modal(modelElement);
+      bootstrapModal.show();
     };
 
   return (
