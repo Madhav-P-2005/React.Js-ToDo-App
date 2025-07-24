@@ -1,48 +1,18 @@
-$dark-bg: #171b1f;
-$light-bg: #ffffff;
-$dark-text: #ffffff;
-$light-text: #000000;
+.custom-navbar {
+  background-color: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 2.5rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
 
-html, body, #root {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  width: 100%;
-}
+  &.dark {
+    background-color: rgba(33, 33, 33, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+  }
 
-.dark-mode {
-  background-color: $dark-bg;
-  color: $dark-text;
-  min-height: 100vh;
-  transition: background-color 0.3s ease;
-}
-
-.light-mode {
-  background-color: $light-bg;
-  color: $light-text;
-  min-height: 100vh;
-  transition: background-color 0.3s ease;
-}
-
-
-.modal-content {
-    background-color: var(--bs-body-bg);
-    color: var(--bs-body-color);
-  }  
-
-
-
-input::placeholder {
-  font-size: 1rem;
-  opacity: 0.8;
-}
-
-
-.modal {
-  animation: fadeIn 0.3s ease;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  &:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  }
 }

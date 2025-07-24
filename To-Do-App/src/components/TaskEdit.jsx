@@ -4,7 +4,7 @@ import "flatpickr/dist/themes/material_green.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendarDays } from "@fortawesome/free-solid-svg-icons";
 
-function TaskEdit({ task, onSave, onCancel }) {
+function TaskEdit({ task, onSave, onCancel ,isDarkMode}) {
   const calendarRef = useRef(null);
 
   const [title, setTitle] = useState("");
@@ -58,7 +58,7 @@ function TaskEdit({ task, onSave, onCancel }) {
   };
 
   return (
-    <div className="p-4 border rounded shadow bg-white">
+    <div className="p-4 border rounded shadow">
       <h2 className="text-xl mb-4">✏️ Edit Task</h2>
 
       {/* Title */}

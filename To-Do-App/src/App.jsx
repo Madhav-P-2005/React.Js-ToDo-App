@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Navbar from "./components/Navbar";
 import "./assets/styles/main.scss";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
@@ -10,37 +10,34 @@ import TaskEdit from "./components/TaskEdit";
 import TaskSearch from "./components/TaskSearch";
 
 function App() {
-  const [isDarkMode, setIsDarkMode] = useState(false);
-  const [taskList, setTaskList] = useState([]);
+  const [isDarkMode, setIsDarkMode] = useState(false); // default to dark mode
+
+  const [taskList, setTaskList] = useState(() => {
+    const savedTasks = localStorage.getItem("tasks");
+    return savedTasks ? JSON.parse(savedTasks) : [];
+  });
 
   const [editTask, setEditTask] = useState(null);
   const [showCreateModal, setShowCreateModal] = useState(false);
-
-
   const [searchQuery, setSearchQuery] = useState("");
 
-
-  // Add new task
   const handleAddTask = (newTask) => {
     setTaskList((prev) => [...prev, newTask]);
   };
 
-  // Delete task
   const handleDeleteTask = (id) => {
     setTaskList((prevTasks) => prevTasks.filter((task) => task.id !== id));
   };
 
-  // Edit click - sets task to be edited
   const handleEditClick = (task) => {
     setEditTask(task);
   };
 
-  // After editing is saved
   const handleUpdatedTask = (updatedTask) => {
     setTaskList((prevTasks) =>
       prevTasks.map((task) => (task.id === updatedTask.id ? updatedTask : task))
     );
-    setEditTask(null); // Close the edit modal
+    setEditTask(null);
   };
 
   const handleClearTasks = () => {
@@ -48,59 +45,76 @@ function App() {
     setTaskList([]);
   };
 
+  const isFirstRender = useRef(true);
+
+  useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+    localStorage.setItem("tasks", JSON.stringify(taskList));
+  }, [taskList]);
+
   return (
-    <div className={isDarkMode ? "dark-mode" : "light-mode"}>
-      <Navbar isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />
+    <>
+      <div
+        className={`${
+          isDarkMode ? "bg-dark text-white" : "bg-light text-dark"
+        }`}
+        style={{ minHeight: "100vh", padding: "0 0.5rem" }}
+      >
+        <Navbar isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />
 
-      <div className="container py-4">
-    
-       <TaskSearch onSearch={setSearchQuery}/>
+        <div className="container py-4">
+          <TaskSearch onSearch={setSearchQuery} isDarkMode={isDarkMode} />
 
-        {/* Add Task Button */}
-        <TaskyModelButton
-          onClearClick={handleClearTasks}
-          onOpen={() => setShowCreateModal(true)}
-        />
-
-        {/* Create Modal */}
-        {showCreateModal && (
-          <TaskModal
-            onTaskGenerate={(newTask) => {
-              handleAddTask(newTask);
-              setShowCreateModal(false);
-            }}
-            onClose={() => setShowCreateModal(false)}
+          {/* Add Task Button */}
+          <TaskyModelButton
+            onClearClick={handleClearTasks}
+            onOpen={() => setShowCreateModal(true)}
           />
-        )}
 
-        {/* Edit Modal */}
-        {editTask && (
-          <TaskEdit
-            task={editTask}
-            onSave={(updatedTask) => {
-              handleUpdatedTask(updatedTask);
-              setEditTask(null);
-            }}
-            onCancel={() => setEditTask(null)}
+          {/* Create Modal */}
+          {showCreateModal && (
+            <TaskModal
+              onTaskGenerate={(newTask) => {
+                handleAddTask(newTask);
+                setShowCreateModal(false);
+              }}
+              onClose={() => setShowCreateModal(false)}
+              isDarkMode={isDarkMode}
+            />
+          )}
+
+          {/* Edit Modal */}
+          {editTask && (
+            <TaskEdit
+              task={editTask}
+              onSave={(updatedTask) => {
+                handleUpdatedTask(updatedTask);
+                setEditTask(null);
+              }}
+              onCancel={() => setEditTask(null)}
+              isDarkMode={isDarkMode}
+            />
+          )}
+
+          {/* Task List */}
+          <TaskLists
+            tasks={taskList.filter((task) => {
+              const query = searchQuery.toLowerCase();
+              return (
+                task.title.toLowerCase().includes(query) ||
+                task.category.toLowerCase().includes(query)
+              );
+            })}
+            onDeleteTask={handleDeleteTask}
+            onEditClick={handleEditClick}
+            isDarkMode={isDarkMode}
           />
-        )}
-
-        {/* Task List and Search too */}
-        <TaskLists
-          tasks={taskList.filter((task) => {
-            const query = searchQuery.toLowerCase();
-
-            return(
-              task.title.toLowerCase().includes(query) || 
-              task.category.toLowerCase().includes(query)
-            );
-          })}
-          onDeleteTask={handleDeleteTask}
-          onEditClick={handleEditClick}
-            
-        />
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 

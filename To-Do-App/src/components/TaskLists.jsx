@@ -2,7 +2,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import TaskDelete from "./TaskDelete";
 
-const TaskLists = ({ tasks, onDeleteTask, onEditClick }) => {
+const TaskLists = ({ tasks, onDeleteTask, onEditClick , isDarkMode }) => {
   // Local handler just to pass the task ID
   const handleDelete = (id) => {
     onDeleteTask(id);
@@ -12,12 +12,16 @@ const TaskLists = ({ tasks, onDeleteTask, onEditClick }) => {
     <div className="container mt-5">
       {/* Heading */}
       <div className="text-center mb-4">
-        <h1 className="display-5 fw-bold">Your Tasks 📃</h1>
+        <h1 className="display-5 fw-bold">Your Task List 📃</h1>
         <hr className="w-25 mx-auto border-3 border-primary" />
       </div>
 
       {/* Task List */}
-      <div className="p-4 border border-2 rounded-4 shadow bg-light">
+      <div
+        className={`p-4 border border-2 rounded-4 shadow rounded-4 ${
+          isDarkMode ? "bg-dark text-light" : "bg-light"
+        }`}
+      >
         {tasks.length === 0 ? (
           <div className="text-center text-muted py-5">
             <h3 className="fw-light">Nothing here... 😴</h3>
@@ -26,7 +30,12 @@ const TaskLists = ({ tasks, onDeleteTask, onEditClick }) => {
           <div className="row">
             {tasks.map((task) => (
               <div key={task.id} className="col-md-6 mb-4">
-                <div className="card shadow rounded-4 h-100 border-0">
+                <div
+                  className={`card shadow rounded-4 h-100 border-3 ${
+                    isDarkMode ? "dark-card" : ""
+                  }
+                  }`}
+                >
                   {/* Optional Image */}
                   {task.image && (
                     <img

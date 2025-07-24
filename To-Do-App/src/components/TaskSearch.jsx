@@ -22,9 +22,13 @@ const TaskSearch = ({onSearch}) => {
       <input
         type="text"
         className="form-control form-control-lg w-100 w-md-50"
-        placeholder='🔍 Search your tasks... by "Title" or "Category"'
+        placeholder='🔍 Search your tasks... based on "Title" or "Category"'
         value={query}
         onChange={handleChange}
+        // autoComplete="off"
+        // spellCheck="false"
+        // autoCorrect="off"
+        // autoCapitalize="off"
       />
     </>
   );
