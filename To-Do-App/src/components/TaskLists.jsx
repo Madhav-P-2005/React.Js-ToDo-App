@@ -1,11 +1,18 @@
+import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import TaskDelete from "./TaskDelete";
 
-const TaskLists = ({ tasks, onDeleteTask, onEditClick , isDarkMode }) => {
+const TaskLists = ({ tasks, onDeleteTask, onEditClick, isDarkMode }) => {
+  const [modalTaskId, setModalTaskId] = useState(null);
+
   // Local handler just to pass the task ID
-  const handleDelete = (id) => {
+  const [deletingId, setDeletingId] = useState(null);
+  const handleDelete = async (id) => {
+    setDeletingId(id);
+    await new Promise((resolve) => setTimeout(resolve, 150)); // smooth UX
     onDeleteTask(id);
+    setDeletingId(null);
   };
 
   return (
@@ -18,82 +25,147 @@ const TaskLists = ({ tasks, onDeleteTask, onEditClick , isDarkMode }) => {
 
       {/* Task List */}
       <div
-        className={`p-4 border border-2 rounded-4 shadow rounded-4 ${
-          isDarkMode ? "bg-dark text-light" : "bg-light"
+        className={`p-4 rounded-4 ${
+          isDarkMode ? "bg-dark bg-opacity-50" : "bg-light"
         }`}
       >
         {tasks.length === 0 ? (
-          <div className="text-center text-muted py-5">
-            <h3 className="fw-light">Nothing here... 😴</h3>
+          <div className="text-center py-5">
+            <h3
+              className={`fw-light ${
+                isDarkMode ? "text-light-emphasis" : "text-muted"
+              }`}
+            >
+              Nothing here... 😴
+            </h3>
           </div>
         ) : (
-          <div className="row">
+          <div className="row g-4">
             {tasks.map((task) => (
-              <div key={task.id} className="col-md-6 mb-4">
+              <div key={task.id} className="col-md-6">
                 <div
-                  className={`card shadow rounded-4 h-100 border-3 ${
-                    isDarkMode ? "dark-card" : ""
-                  }
-                  }`}
+                  className={`card h-100  shadow-lg ${
+                    isDarkMode
+                      ? "bg-dark bg-gradient text-white border-opacity-12   border border-white"
+                      : "bg-white"
+                  } ${deletingId === task.id ? "opacity-50" : ""}`}
+                  style={{
+                    transition: "all 0.3s ease",
+                    transform:
+                      deletingId === task.id ? "scale(0.98)" : "scale(1)",
+                  }}
                 >
                   {/* Optional Image */}
                   {task.image && (
-                    <img
-                      src={task.image}
-                      className="card-img-top rounded-top-4"
-                      alt={task.title || "Task image"}
-                      style={{ maxHeight: "200px", objectFit: "cover" }}
-                    />
+                    <div className="position-relative">
+                      <img
+                        src={task.image}
+                        className="card-img-top"
+                        alt={task.title || "Task image"}
+                        style={{
+                          height: "200px",
+                          objectFit: "cover",
+                          borderBottom: isDarkMode
+                            ? "1px solid rgba(255,255,255,0.1)"
+                            : "1px solid rgba(0,0,0,0.1)",
+                        }}
+                      />
+                    </div>
                   )}
 
                   {/* Card Body */}
-                  <div className="card-body d-flex flex-column justify-content-between">
+                  <div className="card-body d-flex flex-column justify-content-between p-4 ">
                     <div>
-                      <h5 className="card-title text-primary">
+                      <h5
+                        className={`card-title fw-bold mb-3 ${
+                          isDarkMode ? "text-info" : "text-primary"
+                        }`}
+                      >
                         {task.title || "Untitled Task"}
                       </h5>
 
-                      <p className="card-text">
-                        <strong>Category:</strong> {task.category}
-                        <br />
+                      <div className="card-text">
+                        <div
+                          className={`mb-2 ${
+                            isDarkMode ? "text-light" : "text-dark"
+                          }`}
+                        >
+                          <strong className="text-primary">Category :- </strong>{" "}
+                          {task.category}
+                        </div>
                         {task.description && (
-                          <>
-                            <strong>Description:</strong> {task.description}
-                            <br />
-                          </>
+                          <div className="mb-2">
+                            <strong className="text-primary">
+                              Description :-
+                            </strong>{" "}
+                            {task.description}
+                          </div>
                         )}
                         {task.date && (
-                          <>
-                            <strong>Date:</strong>{" "}
-                            {isNaN(new Date(task.date).getTime())
-                              ? "Invalid Date"
-                              : new Date(task.date).toLocaleString("en-IN", {
-                                  dateStyle: "medium",
-                                  timeStyle: "short",
-                                })}
-                          </>
+                          <div
+                            className={`mb-2 ${
+                              isDarkMode ? "text-light" : "text-dark"
+                            }`}
+                          >
+                            <strong className="text-primary">Date :- </strong>
+                            <span
+                              className={
+                                isDarkMode ? "text-white" : "text-dark"
+                              }
+                            >
+                              {isNaN(new Date(task.date).getTime())
+                                ? "Invalid Date"
+                                : new Date(task.date).toLocaleString("en-IN", {
+                                    dateStyle: "medium",
+                                    timeStyle: "short",
+                                  })}
+                            </span>
+                          </div>
                         )}
-                      </p>
+                      </div>
                     </div>
 
                     {/* Action Buttons */}
                     <div className="d-flex justify-content-end gap-3 mt-4">
                       <button
                         type="button"
-                        className="btn btn-warning text-white px-3"
-                        onClick={() => onEditClick(task)} // ✅ Opens Edit Modal
+                        className={`btn ${
+                          isDarkMode ? "btn-outline-info" : "btn-warning"
+                        } px-3`}
+                        onClick={() => onEditClick(task)}
                       >
-                        <FontAwesomeIcon icon={faPenToSquare} /> Edit
+                        <FontAwesomeIcon
+                          icon={faPenToSquare}
+                          className="me-2"
+                        />
+                        Edit
                       </button>
 
                       {/* Delete Button */}
-                      <TaskDelete taskId={task.id} onDelete={handleDelete} />
+                      <TaskDelete
+                        taskId={task.id}
+                        onDelete={handleDelete}
+                        isDarkMode={isDarkMode}
+                      />
                     </div>
                   </div>
                 </div>
               </div>
             ))}
           </div>
+        )}
+
+        {/* Render the Delete Modal here */}
+        {modalTaskId !== null && (
+          <DeleteWarningModal
+            taskId={modalTaskId}
+            onClose={() => setModalTaskId(null)}
+            onDelete={(id) => {
+              handleDelete(id);
+              setModalTaskId(null);
+            }}
+            isDarkMode={isDarkMode}
+          />
         )}
       </div>
     </div>

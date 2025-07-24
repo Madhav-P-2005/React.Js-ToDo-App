@@ -4,15 +4,16 @@ import { faListCheck, faMoon, faSun } from "@fortawesome/free-solid-svg-icons";
 const Navbar = ({ isDarkMode, setIsDarkMode }) => {
   return (
     <nav
-      className={`navbar shadow p-2 mx-4  mb-4 custom-navbar ${
-        isDarkMode ? "dark" : ""
+      className={`navbar custom-border mb-4 ${
+        isDarkMode ? "navbar-dark bg-dark" : "navbar-light bg-light"
       }`}
+      style={{ marginTop: "1rem", borderRadius: "2rem" }}
     >
       <div className="container d-flex justify-content-between align-items-center">
         <a className="navbar-brand d-flex align-items-center" href="#">
           <FontAwesomeIcon
             icon={faListCheck}
-            className={`me-3 ${isDarkMode ? "text-white" : "text-dark"}`}
+            className={`me-4  ${isDarkMode ? "text-light" : "text-dark"}`}
             style={{ fontSize: 36, fontWeight: 900 }}
           />
           <span
@@ -21,7 +22,7 @@ const Navbar = ({ isDarkMode, setIsDarkMode }) => {
               fontWeight: 900,
               fontSize: 32,
             }}
-            className={isDarkMode ? "text-white" : "text-dark"}
+            className={isDarkMode ? "text-light" : "text-dark"}
           >
             My-ToDo
           </span>
@@ -31,10 +32,14 @@ const Navbar = ({ isDarkMode, setIsDarkMode }) => {
           icon={isDarkMode ? faMoon : faSun}
           onClick={() => setIsDarkMode(!isDarkMode)}
           className={`cursor-pointer ${
-            isDarkMode ? "text-white" : "text-dark"
+            isDarkMode ? "text-light" : "text-dark"
           }`}
           style={{ fontSize: 30 }}
-          title={isDarkMode ? "Switch to Light Mode" : "Switch to Dark Mode"}
+          title={
+            isDarkMode
+              ? "Switch to light Mode"
+              : "Switch to Dark Mode"
+          }
         />
       </div>
     </nav>

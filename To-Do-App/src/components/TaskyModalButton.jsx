@@ -13,7 +13,7 @@ const TaskyModelButton = ({ onClearClick, onOpen }) => {
           ➕ Add Tasks
         </button>
         <button className="btn btn-danger" type="button" onClick={onClearClick}>
-          🗑️ Clear/Reset Tasks
+          🗑️ Clear Tasks
         </button>
       </div>
     </div>
