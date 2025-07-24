@@ -215,7 +215,7 @@ function TaskEdit({ task, onSave, onCancel ,isDarkMode}) {
             value={selectedDate}
             options={{
               enableTime: true,
-              time_24hr: false,
+              time_24hr: true,
               altInput: true,
               altFormat: "F j, Y h:i K",
               dateFormat: "Y-m-d H:i",

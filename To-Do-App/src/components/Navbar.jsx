@@ -9,18 +9,29 @@ const Navbar = ({ isDarkMode, setIsDarkMode }) => {
       }`}
       style={{ marginTop: "1rem", borderRadius: "2rem" }}
     >
-      <div className="container d-flex justify-content-between align-items-center">
-        <a className="navbar-brand d-flex align-items-center" href="#">
+      <div
+        className="container d-flex justify-content-between align-items-center flex-nowrap px-2"
+        style={{ minWidth: 0 }}
+      >
+        <a
+          className="navbar-brand d-flex align-items-center gap-2 flex-nowrap"
+          href="#"
+          style={{
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            whiteSpace: "nowrap",
+          }}
+        >
           <FontAwesomeIcon
             icon={faListCheck}
-            className={`me-4  ${isDarkMode ? "text-light" : "text-dark"}`}
-            style={{ fontSize: 36, fontWeight: 900 }}
+            className={` ${isDarkMode ? "text-light" : "text-dark"}`}
+            style={{ fontSize: "1.8rem" }}
           />
           <span
             style={{
               fontFamily: "Eagle Lake, serif",
               fontWeight: 900,
-              fontSize: 32,
+              fontSize: "1.5rem",
             }}
             className={isDarkMode ? "text-light" : "text-dark"}
           >
@@ -34,12 +45,8 @@ const Navbar = ({ isDarkMode, setIsDarkMode }) => {
           className={`cursor-pointer ${
             isDarkMode ? "text-light" : "text-dark"
           }`}
-          style={{ fontSize: 30 }}
-          title={
-            isDarkMode
-              ? "Switch to light Mode"
-              : "Switch to Dark Mode"
-          }
+          style={{ fontSize: "1.5rem", flexShrink: 0 }}
+          title={isDarkMode ? "Switch to light Mode" : "Switch to Dark Mode"}
         />
       </div>
     </nav>
