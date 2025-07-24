@@ -25,13 +25,13 @@ const Navbar = ({ isDarkMode, setIsDarkMode }) => {
           <FontAwesomeIcon
             icon={faListCheck}
             className={` ${isDarkMode ? "text-light" : "text-dark"}`}
-            style={{ fontSize: "1.8rem" }}
+            style={{ fontSize: "2rem" }}
           />
           <span
             style={{
               fontFamily: "Eagle Lake, serif",
               fontWeight: 900,
-              fontSize: "1.5rem",
+              fontSize: "2rem",
             }}
             className={isDarkMode ? "text-light" : "text-dark"}
           >
