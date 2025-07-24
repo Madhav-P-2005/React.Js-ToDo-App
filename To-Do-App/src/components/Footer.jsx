@@ -14,7 +14,7 @@ const Footer = ({ isDarkMode }) => {
         isDarkMode ? "bg-dark text-light" : "bg-light text-dark"
       }`}
     >
-      <div className="container d-flex flex-column flex-md-row justify-content-between align-items-center">
+      <div className="container d-flex flex-column flex-md-row justify-content-between align-items-center gap-3">
         <span className="footer-text">Developed by Madhav P with ❤️</span>
         <div className="footer-social d-flex gap-3">
           <a
