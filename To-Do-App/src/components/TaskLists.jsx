@@ -40,7 +40,7 @@ const TaskLists = ({ tasks, onDeleteTask, onEditClick, isDarkMode }) => {
             </h3>
           </div>
         ) : (
-          <div className="row g-4">
+          <div className="row g-5">
             {tasks.map((task) => (
               <div key={task.id} className="col-md-6">
                 <div
@@ -48,7 +48,7 @@ const TaskLists = ({ tasks, onDeleteTask, onEditClick, isDarkMode }) => {
                     isDarkMode
                       ? "bg-dark bg-gradient text-white border-opacity-12   border border-white"
                       : "bg-white"
-                  } ${deletingId === task.id ? "opacity-50" : ""}`}
+                  } ${deletingId === task.id ? "opacity" : ""}`}
                   style={{
                     transition: "all 0.3s ease",
                     transform:
