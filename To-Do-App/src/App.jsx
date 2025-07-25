@@ -1,3 +1,4 @@
+import React from "react";
 import { useEffect, useState, useRef } from "react";
 import Navbar from "./components/Navbar";
 import TaskyModelButton from "./components/TaskyModalButton";

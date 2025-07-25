@@ -1,8 +1,8 @@
+import React from "react";
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import DeleteWarningModal from "./DeleteWarningModal";
-
 
 const TaskDelete = ({ taskId, isDarkMode, onDelete }) => {
   // Controls the visibility of the confirmation modal

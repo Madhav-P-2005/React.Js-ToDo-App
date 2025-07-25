@@ -1,10 +1,11 @@
+import React from "react";
 import { useState, useEffect, useRef } from "react";
 import Flatpickr from "react-flatpickr";
 import "flatpickr/dist/themes/material_green.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendarDays } from "@fortawesome/free-solid-svg-icons";
 
-function TaskEdit({ task, onSave, onCancel ,isDarkMode}) {
+function TaskEdit({ task, onSave, onCancel, isDarkMode }) {
   const calendarRef = useRef(null);
 
   const [title, setTitle] = useState("");
