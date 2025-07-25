@@ -19,7 +19,7 @@ const TaskLists = ({ tasks, onDeleteTask, onEditClick, isDarkMode }) => {
     <div className="container mt-5">
       {/* Heading */}
       <div className="text-center mb-4">
-        <h1 className="display-5 fw-bold">Your Task List 📃</h1>
+        <h1 className="display-5 fw-bold">Your Task List 📝 </h1>
         <hr className="w-25 mx-auto border-3 border-primary" />
       </div>
 
