@@ -4,15 +4,15 @@ import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import TaskDelete from "./TaskDelete";
 
 const TaskLists = ({ tasks, onDeleteTask, onEditClick, isDarkMode }) => {
-  const [modalTaskId, setModalTaskId] = useState(null);
-
-  // Local handler just to pass the task ID
   const [deletingId, setDeletingId] = useState(null);
-  const handleDelete = async (id) => {
+
+  const handleDelete = (id) => {
     setDeletingId(id);
-    await new Promise((resolve) => setTimeout(resolve, 150)); // smooth UX
-    onDeleteTask(id);
-    setDeletingId(null);
+    // Add a small delay for animation
+    setTimeout(() => {
+      onDeleteTask(id);
+      setDeletingId(null);
+    }, 150);
   };
 
   return (
@@ -153,19 +153,6 @@ const TaskLists = ({ tasks, onDeleteTask, onEditClick, isDarkMode }) => {
               </div>
             ))}
           </div>
-        )}
-
-        {/* Render the Delete Modal here */}
-        {modalTaskId !== null && (
-          <DeleteWarningModal
-            taskId={modalTaskId}
-            onClose={() => setModalTaskId(null)}
-            onDelete={(id) => {
-              handleDelete(id);
-              setModalTaskId(null);
-            }}
-            isDarkMode={isDarkMode}
-          />
         )}
       </div>
     </div>

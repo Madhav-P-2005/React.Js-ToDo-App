@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import Navbar from "./components/Navbar";
 import TaskyModelButton from "./components/TaskyModalButton";
-import TaskModal from "./components/TaskModel";
+import TaskModal from "./components/TaskModal";
 import TaskLists from "./components/TaskLists";
 import TaskEdit from "./components/TaskEdit";
 import TaskSearch from "./components/TaskSearch";
@@ -88,6 +88,7 @@ function App() {
           <TaskyModelButton
             onClearClick={handleClearTasks}
             onOpen={() => setShowCreateModal(true)}
+            isDarkMode={isDarkMode}
           />
           {showCreateModal && (
             <TaskModal

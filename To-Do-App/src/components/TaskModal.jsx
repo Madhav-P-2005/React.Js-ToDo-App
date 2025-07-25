@@ -5,7 +5,7 @@ import { faCalendarDays } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import generateTask from "./TaskGenerate";
 
-const TaskModel = ({ onTaskGenerate , onClose }) => {
+const TaskModel = ({ onTaskGenerate, onClose, isDarkMode }) => {
   const calendarRef = useRef(null);
 
   // Form States
@@ -47,31 +47,40 @@ const TaskModel = ({ onTaskGenerate , onClose }) => {
 
   return (
     <div
-      className="modal d-block"
+      className="modal show"
       style={{
+        display: "block",
         backgroundColor: "rgba(0,0,0,0.5)",
-        zIndex: 1050,
+        backdropFilter: "blur(5px)",
       }}
+      tabIndex="-1"
     >
-      <div className="modal-dialog">
-        <div className="modal-content">
-          {/* Header */}
+      <div className="modal-dialog modal-dialog-centered">
+        <div
+          className={`modal-content ${
+            isDarkMode ? "bg-dark text-light" : "bg-light text-dark"
+          }`}
+        >
+          {/* Modal Header */}
           <div className="modal-header">
             <h1 className="modal-title fs-5">
               Customize Your Task As You Wish! 🤗
             </h1>
             <button
               type="button"
-              className="btn-close"
-              data-bs-dismiss="modal"
+              className={`btn-close ${isDarkMode ? "btn-close-white" : ""}`}
               aria-label="Close"
               onClick={onClose}
             ></button>
           </div>
 
-          {/* Body */}
-          <div className="modal-body">
-            {/* Title */}
+          {/* Modal Body */}
+          <div
+            className={`modal-body ${
+              isDarkMode ? "bg-dark text-light" : "bg-light text-dark"
+            }`}
+          >
+            {/* Task Title */}
             <div className="form-check mb-2">
               <input
                 className="form-check-input"
