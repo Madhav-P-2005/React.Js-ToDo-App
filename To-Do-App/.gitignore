@@ -1,3 +1,19 @@
+# Dependencies
+node_modules
+package-lock.json
+
+# Configuration files
+eslint.config.js
+vite.config.js
+
+# Production build files
+dist
+dist-ssr
+
+# Assets
+src/assets/react.svg
+public/vite.svg
+
 # Logs
 logs
 *.log
@@ -7,18 +23,24 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
-*.local
+# Environment Variables
+.env
+.env.local
 
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
 .idea
 .DS_Store
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
+
+# Local files
+*.local
+
+# Debug logs
+debug.log
+
+# Optional npm cache
+.npm
+
+# Optional eslint cache
+.eslintcache

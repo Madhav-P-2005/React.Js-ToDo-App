@@ -12,7 +12,7 @@ const TaskyModelButton = ({ onClearClick, onOpen, isDarkMode }) => {
         <div className="d-flex justify-content-between align-items-center my-3">
           <button
             className={`btn ${
-              isDarkMode ? "btn-outline-success" : "btn-danger"
+              isDarkMode ? "btn-outline-success" : "btn-success"
             }`}
             type="button"
             onClick={onOpen}
