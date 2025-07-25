@@ -70,6 +70,7 @@ npm run dev
   "react-flatpickr": "^4.0.11",
   "sass": "^1.89.2"
 }
+````
 
 ## 📁 Project Structure
 
@@ -100,6 +101,7 @@ To-Do-App/
 ├── index.html             # HTML template
 ├── vite.config.js        # Vite configuration
 └── eslint.config.js      # ESLint configuration
+```
 
 ## ⚛️ React Hooks Used
 
@@ -157,7 +159,3 @@ Feel free to fork this project and customize it for your needs. If you find any 
 ---
 
 Built with 💖 by [Madhav P](https://github.com/Madhav-P-2005)
-├── vite.config.js       # Vite configuration
-├── package.json        # Dependencies & scripts
-└── eslint.config.js  # ESLint configuration
-```
