@@ -83,7 +83,6 @@ To-Do-App/
 │   │   ├── DeleteWarningModal.jsx  # Confirmation dialogs for deletions
 │   │   ├── Footer.jsx             # App footer with social links
 │   │   ├── Navbar.jsx            # Header with theme toggle
-│   │   ├── TaskCancelButton.jsx  # Reusable cancel button
 │   │   ├── TaskDelete.jsx       # Delete task functionality
 │   │   ├── TaskEdit.jsx        # Task editing form
 │   │   ├── TaskGenerate.jsx   # Task creation logic
@@ -156,6 +155,12 @@ To-Do-App/
 
 Feel free to fork this project and customize it for your needs. If you find any bugs or have suggestions, please open an issue.
 
+
+## 🪪 License
+
+This project is open-source and available under the [MIT License](./LICENSE).
+
+
 ---
 
-Built with 💖 by [Madhav P](https://github.com/Madhav-P-2005)
+Built with 💖 by [Madhav P](https://www.linkedin.com/in/madhav-p-156b9b290/)
