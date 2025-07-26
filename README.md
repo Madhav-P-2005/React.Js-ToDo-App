@@ -5,7 +5,7 @@
 ![Bootstrap 5.3.7](https://img.shields.io/badge/Bootstrap-5.3.7-7952B3?logo=bootstrap&logoColor=white&style=for-the-badge)
 
 
-### 🚀 Live Demo
+### 🚀 Live App
 [![Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-black?logo=vercel)](https://to-do-app-madhavp.vercel.app)
 
 
