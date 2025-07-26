@@ -41,7 +41,7 @@ const Footer = ({ isDarkMode }) => {
             <FontAwesomeIcon icon={faEnvelope} />
           </a>
           <a
-            href="https://discord.gg/phANgdrQ"
+            href="https://discord.gg/dReaKKZpzr"
             target="_blank"
             rel="noopener noreferrer"
             className={isDarkMode ? "text-light" : "text-dark"}
