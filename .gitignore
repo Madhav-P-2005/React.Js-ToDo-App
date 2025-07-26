@@ -36,7 +36,6 @@ coverage/
 .eslintcache
 
 # Vite
-vite.config.js
 *.local
 
 # Default assets that come with create vite
