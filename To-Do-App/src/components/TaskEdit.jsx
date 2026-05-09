@@ -56,6 +56,7 @@ function TaskEdit({ task, onSave, onCancel, isDarkMode }) {
     setUploadedFile(null);
     setImageInputType("url");
     setShowPreview(false);
+
   };
 
   return (
